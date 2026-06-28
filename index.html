@@ -1082,6 +1082,38 @@
       <img src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(function(){this.src=this.src.split('?')[0]+'?'+new Date().getTime()}, 60000)">
     </div>
   </div>
+        <!-- ========================================== -->
+  <!-- LIVE INTELLIGENCE FEEDS (ODOT & NWS) -->
+  <!-- ========================================== -->
+  
+  <!-- NWS Live Regional Alert Box -->
+  <div id="ariel-alerts-box" style="background: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 1200px; display: none; font-family: sans-serif;">
+    <h3 style="color: #721c24; margin-top: 0; font-size: 1.2rem;">⚠️ Active Regional Hazard Alerts</h3>
+    <div id="alerts-content" style="color: #721c24; font-weight: bold;">Fetching active telemetry...</div>
+  </div>
+
+  <!-- ODOT & Caltrans Live Pass Cameras -->
+  <h3 style="text-align: center; color: #fff; margin-top: 30px; font-family: sans-serif;">Live Corridor Tracking Cameras</h3>
+  <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; font-family: sans-serif;">
+    
+    <!-- Siskiyou Summit I-5 MP 6 -->
+    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Siskiyou Summit (Elev. 4,310')</h4>
+      <img src="https://tripcheck.com/RoadCams/cams/I5%20at%20Siskiyou%20Summit%20Top_pid2355.JPG" alt="Siskiyou Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(() => { this.src=this.src.split('?')[0]+'?'+new Date().getTime() }, 60000)">
+    </div>
+
+    <!-- Sexton Summit I-5 MP 70 -->
+    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Sexton Summit (Elev. 1,960')</h4>
+      <img src="https://tripcheck.com/RoadCams/cams/Sexton%20Summit_pid1704.jpg" alt="Sexton Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(() => { this.src=this.src.split('?')[0]+'?'+new Date().getTime() }, 60000)">
+    </div>
+
+    <!-- Hilt Border Crossing (Caltrans) -->
+    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Hilt (California Border)</h4>
+      <img src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(() => { this.src=this.src.split('?')[0]+'?'+new Date().getTime() }, 60000)">
+    </div>
+  </div>
 
   <!-- NWS Live Fetch Automation -->
   <script>
@@ -1092,49 +1124,34 @@
         const alertBox = document.getElementById('ariel-alerts-box');
         const alertContent = document.getElementById('alerts-content');
         
-        alertBox.style.display = 'block';
-        if (data.features && data.features.length > 0) {
-          alertContent.innerHTML = data.features.map(alert => {
-            return `<p style="margin: 5px 0;">• ${alert.properties.event}: ${alert.properties.headline}</p>`;
-          }).join('');
-        } else {
-          alertBox.style.backgroundColor = '#d4edda';
-          alertBox.style.borderColor = '#c3e6cb';
-          alertContent.style.color = '#155724';
-          alertContent.innerHTML = "✅ Corridor Status Nominal: No active severe weather or regional logistical alerts.";
+        if(alertBox && alertContent) {
+          alertBox.style.display = 'block';
+          if (data.features && data.features.length > 0) {
+            alertContent.innerHTML = data.features.map(alert => {
+              return `<p style="margin: 5px 0;">• ${alert.properties.event}: ${alert.properties.headline}</p>`;
+            }).join('');
+          } else {
+            alertBox.style.backgroundColor = '#d4edda';
+            alertBox.style.borderColor = '#c3e6cb';
+            alertContent.style.color = '#155724';
+            alertContent.innerHTML = "✅ Corridor Status Nominal: No active severe weather or regional logistical alerts.";
+          }
         }
       } catch (error) {
         console.error("Failed to connect to NOAA data stream:", error);
       }
     }
-    fetchNWSAlerts();
+    // Run after the HTML elements have fully rendered
+    document.addEventListener("DOMContentLoaded", fetchNWSAlerts);
+    // Fallback if DOMContentLoaded already fired
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+      fetchNWSAlerts();
+    }
   </script>
 
-      <div>
-        <div class="pass-demo-label">Signature Feature</div>
-        <h3>The Pass Status Score</h3>
-        <p>Our proprietary Green / Yellow / Red rating converts meteorological data and community reports into an immediate go/no-go decision. No interpretation required — one glance tells drivers whether to roll or hold.</p>
-      </div>
-      <div class="pass-badges">
-        <div class="pass-badge">
-          <span class="badge-pill go">GO</span>
-          <span class="badge-pass">Siskiyou Summit</span>
-          <span class="badge-dot green"></span>
-        </div>
-        <div class="pass-badge">
-          <span class="badge-pill caution">CAUTION</span>
-          <span class="badge-pass">Sexton Pass</span>
-          <span class="badge-dot yellow"></span>
-        </div>
-        <div class="pass-badge">
-          <span class="badge-pill hold">HOLD</span>
-          <span class="badge-pass">Canyon Creek</span>
-          <span class="badge-dot red"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
+
+      
 
 <!-- MARKET -->
 <section id="market" class="section-alt">
