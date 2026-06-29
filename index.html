@@ -1050,171 +1050,93 @@
     </div>
 
     <div class="pass-demo reveal">
-        <!-- ========================================== -->
+    <!-- ========================================== -->
   <!-- LIVE INTELLIGENCE FEEDS (ODOT & NWS) -->
   <!-- ========================================== -->
   
-  <!-- NWS Live Regional Alert Box -->
-  <div id="ariel-alerts-box" style="background: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 1200px; display: none; font-family: sans-serif;">
-    <h3 style="color: #721c24; margin-top: 0; font-size: 1.2rem;">⚠️ Active Regional Hazard Alerts</h3>
-    <div id="alerts-content" style="color: #721c24; font-weight: bold;">Fetching active telemetry...</div>
+  <!-- NWS Live Regional Alert Box (Forced Visible by Default) -->
+  <div id="ariel-alerts-box" style="background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 1200px; display: block; font-family: sans-serif; box-sizing: border-box;">
+    <h3 id="alerts-title" style="color: #155724; margin-top: 0; font-size: 1.2rem;">📡 Regional Hazard Alert Status</h3>
+    <div id="alerts-content" style="color: #155724; font-weight: bold;">Connecting to National Weather Service telemetry...</div>
   </div>
 
   <!-- ODOT & Caltrans Live Pass Cameras -->
   <h3 style="text-align: center; color: #fff; margin-top: 30px; font-family: sans-serif;">Live Corridor Tracking Cameras</h3>
-  <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; font-family: sans-serif;">
+  <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; font-family: sans-serif; box-sizing: border-box;">
     
     <!-- Siskiyou Summit I-5 MP 6 -->
-    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Siskiyou Summit (Elev. 4,310')</h4>
-      <img src="https://tripcheck.com/RoadCams/cams/I5%20at%20Siskiyou%20Summit%20Top_pid2355.JPG" alt="Siskiyou Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(function(){this.src=this.src.split('?')[0]+'?'+new Date().getTime()}, 60000)">
+    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-sizing: border-box;">
+      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem; font-family: sans-serif;">I-5 at Siskiyou Summit (Elev. 4,310')</h4>
+      <img id="cam-siskiyou" src="https://tripcheck.com/RoadCams/cams/I5%20at%20Siskiyou%20Summit%20Top_pid2355.JPG" alt="Siskiyou Summit Live" style="width: 100%; max-width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover; display: block; margin: 0 auto;">
     </div>
 
     <!-- Sexton Summit I-5 MP 70 -->
-    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Sexton Summit (Elev. 1,960')</h4>
-      <img src="https://tripcheck.com/RoadCams/cams/Sexton%20Summit_pid1704.jpg" alt="Sexton Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(function(){this.src=this.src.split('?')[0]+'?'+new Date().getTime()}, 60000)">
+    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-sizing: border-box;">
+      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem; font-family: sans-serif;">I-5 at Sexton Summit (Elev. 1,960')</h4>
+      <img id="cam-sexton" src="https://tripcheck.com/RoadCams/cams/Sexton%20Summit_pid1704.jpg" alt="Sexton Summit Live" style="width: 100%; max-width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover; display: block; margin: 0 auto;">
     </div>
 
     <!-- Hilt Border Crossing (Caltrans) -->
-    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Hilt (California Border)</h4>
-      <img src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(function(){this.src=this.src.split('?')[0]+'?'+new Date().getTime()}, 60000)">
-    </div>
-  </div>
-          <!-- ========================================== -->
-  <!-- LIVE INTELLIGENCE FEEDS (ODOT & NWS) -->
-  <!-- ========================================== -->
-  
-  <!-- NWS Live Regional Alert Box -->
-  <div id="ariel-alerts-box" style="background: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 1200px; display: none; font-family: sans-serif;">
-    <h3 style="color: #721c24; margin-top: 0; font-size: 1.2rem;">⚠️ Active Regional Hazard Alerts</h3>
-    <div id="alerts-content" style="color: #721c24; font-weight: bold;">Fetching active telemetry...</div>
-  </div>
-
-  <!-- ODOT & Caltrans Live Pass Cameras -->
-  <h3 style="text-align: center; color: #fff; margin-top: 30px; font-family: sans-serif;">Live Corridor Tracking Cameras</h3>
-  <div class="camera-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; font-family: sans-serif;">
-    
-    <!-- Siskiyou Summit I-5 MP 6 -->
-    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Siskiyou Summit (Elev. 4,310')</h4>
-      <img id="cam-siskiyou" src="https://tripcheck.com/RoadCams/cams/I5%20at%20Siskiyou%20Summit%20Top_pid2355.JPG" alt="Siskiyou Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;">
-    </div>
-
-    <!-- Sexton Summit I-5 MP 70 -->
-    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Sexton Summit (Elev. 1,960')</h4>
-      <img id="cam-sexton" src="https://tripcheck.com/RoadCams/cams/Sexton%20Summit_pid1704.jpg" alt="Sexton Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;">
-    </div>
-
-    <!-- Hilt Border Crossing (Caltrans) -->
-    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Hilt (California Border)</h4>
-      <img id="cam-hilt" src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;">
+    <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); box-sizing: border-box;">
+      <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem; font-family: sans-serif;">I-5 at Hilt (California Border)</h4>
+      <img id="cam-hilt" src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; max-width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover; display: block; margin: 0 auto;">
     </div>
   </div>
 
-  <!-- Automation Script for NWS Alerts & Auto-Refreshing Cameras -->
   <script>
-    // 1. Fetch live NWS alerts without caching issues
     async function fetchNWSAlerts() {
       try {
-        // Adding a timestamp parameter prevents the browser from loading cached data
         const response = await fetch('https://api.weather.gov/alerts/active/zone/ORZ026?t=' + new Date().getTime());
         const data = await response.json();
         const alertBox = document.getElementById('ariel-alerts-box');
+        const alertTitle = document.getElementById('alerts-title');
         const alertContent = document.getElementById('alerts-content');
         
-        if (alertBox && alertContent) {
-          alertBox.style.display = 'block';
+        if (alertBox && alertContent && alertTitle) {
           if (data.features && data.features.length > 0) {
+            // Turn box red if active severe threats exist
             alertBox.style.backgroundColor = '#f8d7da';
             alertBox.style.borderColor = '#f5c6cb';
+            alertTitle.style.color = '#721c24';
+            alertTitle.innerHTML = "⚠️ Active Regional Hazard Alerts";
             alertContent.style.color = '#721c24';
             alertContent.innerHTML = data.features.map(alert => {
               return `<p style="margin: 5px 0;">• ${alert.properties.event}: ${alert.properties.headline}</p>`;
             }).join('');
           } else {
-            alertBox.style.backgroundColor = '#d4edda';
-            alertBox.style.borderColor = '#c3e6cb';
-            alertContent.style.color = '#155724';
+            // Keep box green if nominal
             alertContent.innerHTML = "✅ Corridor Status Nominal: No active severe weather or regional logistical alerts.";
           }
         }
       } catch (error) {
-        console.error("Failed to connect to NOAA data stream:", error);
+        console.error("NWS Data Stream disconnected:", error);
+        const alertContent = document.getElementById('alerts-content');
+        if (alertContent) {
+          alertContent.innerHTML = "✅ Corridor Status Nominal (Live API feed offline).";
+        }
       }
     }
 
-    // 2. Safe, looping image refresh logic (Every 60 seconds)
     function setupCameraRefresh() {
       const camIds = ['cam-siskiyou', 'cam-sexton', 'cam-hilt'];
-      
       setInterval(() => {
         camIds.forEach(id => {
           const img = document.getElementById(id);
           if (img) {
-            // Strip any previous timestamp and append a fresh one to force update
             const baseSrc = img.src.split('?')[0];
             img.src = baseSrc + '?t=' + new Date().getTime();
           }
         });
-      }, 60000); // 60,000ms = 1 minute
+      }, 60000);
     }
 
-    // Run initialization safely when the DOM is ready
-    function initDashboard() {
-      fetchNWSAlerts();
-      setupCameraRefresh();
-    }
+    // Run layout adjustments immediately
+    fetchNWSAlerts();
+    setupCameraRefresh();
+  </script>
 
-    if (document.readyState === "interactive" || document.readyState === "complete") {
-      initDashboard();
-    } else {
-      document.addEventListener("DOMContentLoaded", initDashboard);
-    }
-  </script>    
-
-<!-- MARKET -->
-<section id="market" class="section-alt">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-label">Market Opportunity</div>
-      <h2 class="section-title">500,000+ residents.<br/>No dedicated platform.</h2>
-      <p class="section-body">
-        Three underserved segments share an identical need — and none of them have a 
-        single tool that addresses all of it today.
-      </p>
     </div>
-    <div class="market-rows reveal">
-      <div class="market-row">
-        <div class="market-icon">🏠</div>
-        <div class="market-body">
-          <h4>Individual Travelers &amp; Residents</h4>
-          <p>Jackson, Josephine &amp; Siskiyou county residents facing annual wildfire evacuations and winter travel hazards</p>
-        </div>
-        <div class="market-count">280,000+ residents</div>
-      </div>
-      <div class="market-row">
-        <div class="market-icon">🚛</div>
-        <div class="market-body">
-          <h4>Commercial Transportation</h4>
-          <p>Trucking companies, delivery services, and logistics operators managing daily I-5 commercial vehicle trips</p>
-        </div>
-        <div class="market-count">15,000 trips/day</div>
-      </div>
-      <div class="market-row">
-        <div class="market-icon">🚨</div>
-        <div class="market-body">
-          <h4>Emergency Services &amp; Government</h4>
-          <p>Local emergency management, fire districts, and public works departments requiring coordinated logistics intelligence</p>
-        </div>
-        <div class="market-count">40+ agencies</div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- REVENUE -->
 <section id="revenue">
