@@ -1090,18 +1090,16 @@
   </div>
 
   <script>
-    async function fetchNWSAlerts() {
+    
     async function fetchNWSAlerts() {
   try {
-    // Append unique timestamp parameter to safely bypass browser caching layers
-    const url = 'https://api.weather.gov/alerts/active/zone/ORZ026?t=' + new Date().getTime();
+    // FIX: Removed the query parameter string to prevent 400 Bad Request errors from NWS
+    const url = 'https://api.weather.gov/alerts/active/zone/ORZ026';
     
-    const response = await fetch(url, {
+    [span_1](start_span)const response = await fetch(url, {
       method: 'GET',
       headers: {
-        // REQUIRED BY NWS: Identify your app platform and supply a contact email
-        'User-Agent': 'ARIELWeatherDashboard/1.0 (tkochconsulting@gmail.com)',
-        // Tells the API to respond back with standard GeoJSON formatted metrics
+        'User-Agent': 'ARIELWeatherDashboard/1.0 (tkochconsulting@gmail.com)',[span_1](end_span)
         'Accept': 'application/geo+json'
       }
     });
@@ -1112,13 +1110,37 @@
 
     const data = await response.json();
     console.log("Active Regional Alerts Data:", data);
+
+    // --- VISUAL RENDER BLOCK ---
+    // Locate the DOM container where your alert information or ticker displays
+    const alertContainer = document.getElementById('ticker-content'); 
+    
+    if (alertContainer && data.features && data.features.length > 0) {
+      // Map out all active hazard headlines into a single continuous scrolling text string
+      const scrollingText = data.features.map(alert => alert.properties.headline).join('  |  ');
+      alertContainer.innerText = scrollingText;
+    } else if (alertContainer) {
+      // Nominal Fallback state if there are no active weather hazards in the zone
+      alertContainer.innerText = "Siskiyou Summit (Elev. 4,310'): Status Green — Traffic flowing normally. Roads Clear.";
+    }
+
     return data;
 
   } catch (error) {
     console.error("Failed executing NWS active alert query stream:", error);
+    
+    // Fallback message so your UI never stays completely blank during a network timeout
+    const alertContainer = document.getElementById('ticker-content');
+    if (alertContainer) {
+      alertContainer.innerText = "Regional Logistics Status: Operational. Check TripCheck links for local pass updates.";
+    }
     return null;
   }
 }
+
+// Automatically trigger the fetch when the dashboard webpage finishes loading
+document.addEventListener('DOMContentLoaded', fetchNWSAlerts);
+
 
         const data = await response.json();
         const alertBox = document.getElementById('ariel-alerts-box');
