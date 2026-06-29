@@ -1091,8 +1091,35 @@
 
   <script>
     async function fetchNWSAlerts() {
-      try {
-        const response = await fetch('https://api.weather.gov/alerts/active/zone/ORZ026?t=' + new Date().getTime());
+    async function fetchNWSAlerts() {
+  try {
+    // Append unique timestamp parameter to safely bypass browser caching layers
+    const url = 'https://api.weather.gov/alerts/active/zone/ORZ026?t=' + new Date().getTime();
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        // REQUIRED BY NWS: Identify your app platform and supply a contact email
+        'User-Agent': 'ARIELWeatherDashboard/1.0 (tkochconsulting@gmail.com)',
+        // Tells the API to respond back with standard GeoJSON formatted metrics
+        'Accept': 'application/geo+json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`NWS API HTTP Error Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Active Regional Alerts Data:", data);
+    return data;
+
+  } catch (error) {
+    console.error("Failed executing NWS active alert query stream:", error);
+    return null;
+  }
+}
+
         const data = await response.json();
         const alertBox = document.getElementById('ariel-alerts-box');
         const alertTitle = document.getElementById('alerts-title');
