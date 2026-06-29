@@ -1082,7 +1082,7 @@
       <img src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(function(){this.src=this.src.split('?')[0]+'?'+new Date().getTime()}, 60000)">
     </div>
   </div>
-        <!-- ========================================== -->
+          <!-- ========================================== -->
   <!-- LIVE INTELLIGENCE FEEDS (ODOT & NWS) -->
   <!-- ========================================== -->
   
@@ -1099,34 +1099,39 @@
     <!-- Siskiyou Summit I-5 MP 6 -->
     <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
       <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Siskiyou Summit (Elev. 4,310')</h4>
-      <img src="https://tripcheck.com/RoadCams/cams/I5%20at%20Siskiyou%20Summit%20Top_pid2355.JPG" alt="Siskiyou Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(() => { this.src=this.src.split('?')[0]+'?'+new Date().getTime() }, 60000)">
+      <img id="cam-siskiyou" src="https://tripcheck.com/RoadCams/cams/I5%20at%20Siskiyou%20Summit%20Top_pid2355.JPG" alt="Siskiyou Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;">
     </div>
 
     <!-- Sexton Summit I-5 MP 70 -->
     <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
       <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Sexton Summit (Elev. 1,960')</h4>
-      <img src="https://tripcheck.com/RoadCams/cams/Sexton%20Summit_pid1704.jpg" alt="Sexton Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(() => { this.src=this.src.split('?')[0]+'?'+new Date().getTime() }, 60000)">
+      <img id="cam-sexton" src="https://tripcheck.com/RoadCams/cams/Sexton%20Summit_pid1704.jpg" alt="Sexton Summit Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;">
     </div>
 
     <!-- Hilt Border Crossing (Caltrans) -->
     <div class="cam-card" style="background: #1B2D5B; padding: 12px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
       <h4 style="color: #fff; margin-bottom: 8px; font-size: 0.95rem;">I-5 at Hilt (California Border)</h4>
-      <img src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" onload="setTimeout(() => { this.src=this.src.split('?')[0]+'?'+new Date().getTime() }, 60000)">
+      <img id="cam-hilt" src="https://cctv.dot.ca.gov/02/0002_0007.4.jpg" alt="Hilt Border Live" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;">
     </div>
   </div>
 
-  <!-- NWS Live Fetch Automation -->
+  <!-- Automation Script for NWS Alerts & Auto-Refreshing Cameras -->
   <script>
+    // 1. Fetch live NWS alerts without caching issues
     async function fetchNWSAlerts() {
       try {
-        const response = await fetch('https://api.weather.gov/alerts/active/zone/ORZ026');
+        // Adding a timestamp parameter prevents the browser from loading cached data
+        const response = await fetch('https://api.weather.gov/alerts/active/zone/ORZ026?t=' + new Date().getTime());
         const data = await response.json();
         const alertBox = document.getElementById('ariel-alerts-box');
         const alertContent = document.getElementById('alerts-content');
         
-        if(alertBox && alertContent) {
+        if (alertBox && alertContent) {
           alertBox.style.display = 'block';
           if (data.features && data.features.length > 0) {
+            alertBox.style.backgroundColor = '#f8d7da';
+            alertBox.style.borderColor = '#f5c6cb';
+            alertContent.style.color = '#721c24';
             alertContent.innerHTML = data.features.map(alert => {
               return `<p style="margin: 5px 0;">• ${alert.properties.event}: ${alert.properties.headline}</p>`;
             }).join('');
@@ -1141,17 +1146,35 @@
         console.error("Failed to connect to NOAA data stream:", error);
       }
     }
-    // Run after the HTML elements have fully rendered
-    document.addEventListener("DOMContentLoaded", fetchNWSAlerts);
-    // Fallback if DOMContentLoaded already fired
-    if (document.readyState === "interactive" || document.readyState === "complete") {
-      fetchNWSAlerts();
-    }
-  </script>
 
-
-
+    // 2. Safe, looping image refresh logic (Every 60 seconds)
+    function setupCameraRefresh() {
+      const camIds = ['cam-siskiyou', 'cam-sexton', 'cam-hilt'];
       
+      setInterval(() => {
+        camIds.forEach(id => {
+          const img = document.getElementById(id);
+          if (img) {
+            // Strip any previous timestamp and append a fresh one to force update
+            const baseSrc = img.src.split('?')[0];
+            img.src = baseSrc + '?t=' + new Date().getTime();
+          }
+        });
+      }, 60000); // 60,000ms = 1 minute
+    }
+
+    // Run initialization safely when the DOM is ready
+    function initDashboard() {
+      fetchNWSAlerts();
+      setupCameraRefresh();
+    }
+
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+      initDashboard();
+    } else {
+      document.addEventListener("DOMContentLoaded", initDashboard);
+    }
+  </script>    
 
 <!-- MARKET -->
 <section id="market" class="section-alt">
